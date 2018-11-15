@@ -14,9 +14,14 @@ public class AmqpApplication {
 		SpringApplication.run(AmqpApplication.class, args);
 	}
 
-    @StreamListener(Sink.INPUT)
-    public void handle(Person person) {
-        System.out.println("Received: " + person);
+    @StreamListener(target = Sink.INPUT, condition = "headers['type']=='bacall'")
+    public void handleBacall(Person person) {
+        System.out.println("[bacall] Received: " + person);
+    }
+
+    @StreamListener(target = Sink.INPUT, condition = "headers['type']=='bogey'")
+    public void handleBogey(Person person) {
+        System.out.println("[bogey] Received: " + person);
     }
 
     public static class Person {
